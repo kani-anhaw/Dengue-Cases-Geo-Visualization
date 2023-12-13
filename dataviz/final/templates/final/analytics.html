@@ -1,0 +1,230 @@
+{%extends "base.html"%}
+{%load static%}
+{%block content%}
+
+
+
+<!-- SIDEBAR -->
+<section id="sidebar">
+    <a href="#" class="brand">
+        <img src="{%static 'jiys.png'%}" alt="" style="width: 50px; height: auto; margin: 15px;">
+        <span class="text">ITD112</span>
+    </a>
+    <ul class="side-menu top">
+        <li >
+            <a href="{% url 'final:index' %}">
+                <i class='bx bxs-dashboard' ></i>
+                <span class="text">Dashboard</span>
+            </a>
+        </li>
+        <!-- <li >
+            <a href="#">
+                <i class='bx bxs-brush-alt'></i>
+                <span class="text">Data Processing</span>
+            </a>
+        </li> -->
+        <li class="active">
+            <a href="{% url 'final:analytics' %}">
+                <i class='bx bxs-doughnut-chart' ></i>
+                <span class="text">Choropleth Map</span>
+            </a>
+        </li>
+        <li>
+            <a href="{% url 'final:bubbleMap' %}">
+                <i class='bx bxs-message-dots' ></i>
+                <span class="text">Bubble Map</span>
+            </a>
+        </li>
+        <li>
+            <a href="{% url 'final:others' %}">
+                <i class='bx bxs-group' ></i>
+                <span class="text">Others</span>
+            </a>
+        </li>
+    </ul>
+    <ul class="side-menu">
+        <li>
+            <a href="#">
+                <i class='bx bxs-cog' ></i>
+                <span class="text">Settings</span>
+            </a>
+        </li>
+        <li>
+            <a href="#" class="logout">
+                <i class='bx bxs-log-out-circle' ></i>
+                <span class="text">Logout</span>
+            </a>
+        </li>
+    </ul>
+</section>
+<!-- SIDEBAR -->
+
+
+	<!-- CONTENT -->
+	<section id="content">
+		<!-- NAVBAR -->
+		
+
+		<!-- MAIN -->
+		<main>
+			<div class="head-title">
+				<div class="left">
+					<h1 style="font-size: 28px; font-weight: bold;">Dengue Cases Per Year</h1>
+					<ul class="breadcrumb">
+						<li>
+							<a href="{% url 'final:analytics' %}">Choropleth Map</a>
+						</li>
+						<li><i class='bx bx-chevron-right' ></i></li>
+						<li>
+							<a class="active" href="#">Home</a>
+						</li>
+					</ul>
+				</div>
+				<!-- <a href="#" class="btn-download">
+					<i class='bx bxs-cloud-download' ></i>
+					<span class="text">Download PDF</span>
+				</a> -->
+			</div>
+<br>
+
+
+
+    <!-- <div class="map-container" 
+    style="
+    border-radius: 10px;
+    width: 80%;
+    margin: 20px; /* Adjusted margin for space around the div */
+    justify-items: center;
+    padding: 10px;">
+
+    {{ map|safe }}
+</div>
+
+<div class="chropleth" style="margin-top: 20px; /* Adjusted margin for space above the div */
+    margin-bottom: 20px; /* Adjusted margin for space below the div */
+    border: 10px solid red;
+    width: 80%;">
+
+    {{ choropleth_html|safe }}
+</div> -->
+
+
+
+
+
+<!-- semi finaaaal -->
+
+<!-- <div class="map-container" style="margin-bottom: 20px; border-radius: 10px; width: 80%; padding: 10px;">
+    {{ map_html|safe }}
+</div> -->
+
+
+<!-- 
+<div class="map-container" style="margin-bottom: 20px; border-radius: 10px; width: 80%; padding: 10px;">
+    <h4>Dengue Cases for Year 2016-2021</h4>
+    <br>
+    {{ plot_html|safe }}
+
+
+    <div>
+        {{ line_html|safe }}
+    </div>
+ 
+ 
+</div> -->
+
+
+
+<!-- Your existing choropleth map HTML -->
+
+<div class="graph-container" style="display: flex; justify-content: space-between;">
+   
+    <div class="graph" id="choropleth-container" style="flex: 1; margin: 10px;">
+        {{ choropleth_html|safe }}
+    </div>
+    
+    <div class="nested-container" style="display: flex; flex-direction: column; flex: 1; margin: 10px; ">
+        <div class="graph" id="line-container" style="flex: 1;">
+            {{ line_html|safe }}
+        </div>
+        
+        <div class="additional-info" style="margin-top: 10px; background-color: white; font-size: 12px; flex: 1; padding: 10px;">
+            <h3>Total cases for the highest count: {{additional_info.sum_cases_max_region }}</h3>
+            <p>{{ additional_info.max_cases_region }} </p>
+        <br>
+            <h3>Total cases for the lowest count: {{additional_info.sum_cases_min_region }}</h3>
+            <p>{{ additional_info.min_cases_region }} </p>
+        </div>
+    </div>
+</div>
+
+
+
+<br>
+<br>
+<br>
+
+<!-- <div class="map-container2" style="margin-bottom: 20px; border-radius: 10px; width: 80%; padding: 10px;">
+    
+</div> -->
+
+
+
+
+<!-- <div class="chropleth" style="border: 10px solid red; width: 80%; padding: 10px;">
+    {{ choropleth_html|safe }}
+</div> -->
+
+
+
+ 
+    
+    
+    <!-- <div class="table-data">
+
+        <div class="order">
+
+            <table class="table table-striped" style="width: 80%;">
+                <thead>
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Country</th>
+                    <th scope="col">Capital</th>
+                
+                    <th scope="col">Population</th>
+                   
+                    <th scope="col">ISO</th>
+                  </tr>
+                </thead>
+                <tbody>
+                    {%for populations in pop%}
+                  <tr>
+                    <th scope="row">{{populations.id}}</th>
+                  
+                    <td>{{populations.country}}</td>
+                    <td>{{populations.capital}}</td>
+                    <td>{{populations.latitude}}</td>
+                    <td>{{populations.longitude}}</td>
+                    <td>{{populations.population}}</td>
+               
+                    <td>{{populations.iso}}</td>
+        
+                  </tr>
+                  {%endfor%}
+                  
+        
+                </tbody>
+        
+        
+                </table>
+        </div>
+    
+    </div>
+
+   -->
+   
+        </main>
+        </section>
+
+        {%endblock content%}
+

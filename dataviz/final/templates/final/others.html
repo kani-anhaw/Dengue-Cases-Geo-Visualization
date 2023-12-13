@@ -1,0 +1,137 @@
+{%extends "base.html"%}
+{%load static%}
+{%block content%}
+
+
+
+<!-- SIDEBAR -->
+<section id="sidebar">
+    <a href="#" class="brand">
+        <i class='bx bxs-smile'></i>
+        <span class="text">ITD112</span>
+    </a>
+    <ul class="side-menu top">
+        <li >
+            <a href="{% url 'final:index' %}">
+                <i class='bx bxs-dashboard' ></i>
+                <span class="text">Dashboard</span>
+            </a>
+        </li>
+        <!-- <li >
+            <a href="#">
+                <i class='bx bxs-brush-alt'></i>
+                <span class="text">Data Processing</span>
+            </a>
+        </li> -->
+        <li>
+            <a href="{% url 'final:analytics' %}">
+                <i class='bx bxs-doughnut-chart' ></i>
+                <span class="text">Choropleth</span>
+            </a>
+        </li>
+        <li >
+            <a href="{% url 'final:bubbleMap' %}">
+                <i class='bx bxs-message-dots' ></i>
+                <span class="text">Bubble Map</span>
+            </a>
+        </li>
+        <li class="active">
+            <a href="{% url 'final:others' %}">
+                <i class='bx bxs-group' ></i>
+                <span class="text">Others</span>
+            </a>
+        </li>
+    </ul>
+    <ul class="side-menu">
+        <li>
+            <a href="#">
+                <i class='bx bxs-cog' ></i>
+                <span class="text">Settings</span>
+            </a>
+        </li>
+        <li>
+            <a href="#" class="logout">
+                <i class='bx bxs-log-out-circle' ></i>
+                <span class="text">Logout</span>
+            </a>
+        </li>
+    </ul>
+</section>
+<!-- SIDEBAR -->
+
+
+	<!-- CONTENT -->
+	<section id="content">
+		<!-- NAVBAR -->
+		
+
+		<!-- MAIN -->
+		<main>
+			<div class="head-title">
+				<div class="left">
+					<h1>Geo Analytics</h1>
+					<ul class="breadcrumb">
+						<li>
+							<a href="#">Preprocessing</a>
+						</li>
+						<li><i class='bx bx-chevron-right' ></i></li>
+						<li>
+							<a class="active" href="#">Home</a>
+						</li>
+					</ul>
+				</div>
+				<!-- <a href="#" class="btn-download">
+					<i class='bx bxs-cloud-download' ></i>
+					<span class="text">Download PDF</span>
+				</a> -->
+			</div>
+<br>
+
+
+
+    <!-- <div class="map-container" 
+    style="
+    border-radius: 10px;
+    width: 80%;
+    margin: 20px; /* Adjusted margin for space around the div */
+    justify-items: center;
+    padding: 10px;">
+
+    {{ map|safe }}
+</div>
+
+<div class="chropleth" style="margin-top: 20px; /* Adjusted margin for space above the div */
+    margin-bottom: 20px; /* Adjusted margin for space below the div */
+    border: 10px solid red;
+    width: 80%;">
+
+    {{ choropleth_html|safe }}
+</div> -->
+
+
+
+
+
+<!-- semi finaaaal -->
+
+<div class="map-container" style="margin-bottom: 20px; border-radius: 10px; width: 80%; padding: 10px;">
+    {{ map_html|safe }}
+</div>
+
+<!-- <div class="map-container" style="margin-bottom: 20px; border-radius: 10px; width: 80%; padding: 10px;">
+    <h4>Dengue Deaths per Month (2016-2021)</h4>
+    <br>
+    {{ plot_html1|safe }}
+  
+    <br>
+
+ 
+
+
+
+   
+        </main>
+        </section>
+
+        {%endblock content%}
+

@@ -14,43 +14,41 @@
 	<link rel="stylesheet" href="{% static 'style.css' %}">
     <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous"> -->
 
-	<title>AdminHub</title>
+	<link rel="icon" type="image/x-icon" href="{%static 'jiys.png'%}">
+
+	<title>Philippine Dengue Cases and Deaths (2016-2019) Data Visualization</title>
 
     {% load static %}
 </head>
-<body>
+<body id="page-body">
 
 
 
 
 
 	<!-- CONTENT -->
-	<section id="content" >
-		<!-- NAVBAR -->
-		<nav>
-			<i class='bx bx-menu' ></i>
-			<a href="#" class="nav-link">Categories</a>
-			<form action="#">
-				<div class="form-input">
-					<input type="search" placeholder="Search...">
-					<button type="submit" class="search-btn"><i class='bx bx-search' ></i></button>
-				</div>
-			</form>
+	<section id="content" style="display: flex; justify-content: space-between; align-items: center;">
+		<!-- Left side (menu) -->
+		<nav class="leftnav" style="flex: 1;">
+			<i class='bx bx-menu'></i>
+		</nav>
+	
+		<!-- Right side (other elements) -->
+		<nav class="rightnav" style="flex: 1; display: flex; justify-content: flex-end; align-items: center;">
+			<!-- Add your other elements here -->
 			<input type="checkbox" id="switch-mode" hidden>
 			<label for="switch-mode" class="switch-mode"></label>
 			<a href="#" class="notification">
-				<i class='bx bxs-bell' ></i>
+				<i class='bx bxs-bell'></i>
 				<span class="num">8</span>
 			</a>
 			<a href="#" class="profile">
-				<img src="{%static '1.jpg'%}">
+				<img src="{% static '1.jpg' %}">
 			</a>
 		</nav>
-		<!-- NAVBAR -->
-
-		
 	</section>
 	<!-- CONTENT -->
+	
 
 
     {%block content%}

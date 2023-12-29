@@ -3,6 +3,58 @@
 {%block content%}
 
 
+<style>
+
+    .butt{
+        display: flex;
+        
+    }
+
+
+#time-year,
+#time-month {
+    margin: 20px;
+    text-decoration: none;
+    border-radius: 15px;
+    border: 1px solid gray;
+    padding: 10px 15px;
+    color: inherit;
+    width: 120px; /* Set a fixed width for both buttons */
+    box-sizing: border-box; /* Include padding in the width calculation */
+}
+
+    #time-year:hover, #time-month:hover {
+        background-color: white;
+        border-radius: 15px;
+        padding: 10px;
+        padding-left: 15px;
+        padding-right: 15px;
+        border: none;
+    }
+
+    #time-year.active, #time-month.active {
+        background-color: white;
+        border-radius: 15px;
+        padding: 10px;
+        padding-left: 15px;
+        padding-right: 15px;
+        border: none;
+    }
+
+    /* Add styles for body class-based active state */
+    body.time-month-active #time-month,
+    body.time-year-active #time-year {
+        background-color: white;
+        border-radius: 15px;
+        padding: 10px;
+        padding-left: 15px;
+        padding-right: 15px;
+        border: none;
+    }
+</style>
+
+
+
 
 <!-- SIDEBAR -->
 <section id="sidebar">
@@ -69,70 +121,32 @@
 		<main>
 			<div class="head-title">
 				<div class="left">
-					<h1 style="font-size: 28px; font-weight: bold;">Dengue Cases Per Year</h1>
-					<ul class="breadcrumb">
-						<li>
-							<a href="{% url 'final:analytics' %}">Choropleth Map</a>
-						</li>
-						<li><i class='bx bx-chevron-right' ></i></li>
-						<li>
-							<a class="active" href="#">Home</a>
-						</li>
-					</ul>
+					<h1 style="font-size: 28px; font-weight: bold;">Dengue Cases Per Region</h1>
+					
 				</div>
+              
+
 				<!-- <a href="#" class="btn-download">
 					<i class='bx bxs-cloud-download' ></i>
 					<span class="text">Download PDF</span>
 				</a> -->
 			</div>
+            <br>
+            <br>
+            <div class="butt">
+
+            <span><a href="?time_unit=month" id="time-month"> By Month </a></span>
+
+            <span><a href="?time_unit=year" id="time-year"> By Year </a></span>
+
+            </div>
+
+            <!-- <span><a href="#"> By Month </a></span> -->
 <br>
 
 
 
-    <!-- <div class="map-container" 
-    style="
-    border-radius: 10px;
-    width: 80%;
-    margin: 20px; /* Adjusted margin for space around the div */
-    justify-items: center;
-    padding: 10px;">
-
-    {{ map|safe }}
-</div>
-
-<div class="chropleth" style="margin-top: 20px; /* Adjusted margin for space above the div */
-    margin-bottom: 20px; /* Adjusted margin for space below the div */
-    border: 10px solid red;
-    width: 80%;">
-
-    {{ choropleth_html|safe }}
-</div> -->
-
-
-
-
-
-<!-- semi finaaaal -->
-
-<!-- <div class="map-container" style="margin-bottom: 20px; border-radius: 10px; width: 80%; padding: 10px;">
-    {{ map_html|safe }}
-</div> -->
-
-
-<!-- 
-<div class="map-container" style="margin-bottom: 20px; border-radius: 10px; width: 80%; padding: 10px;">
-    <h4>Dengue Cases for Year 2016-2021</h4>
-    <br>
-    {{ plot_html|safe }}
-
-
-    <div>
-        {{ line_html|safe }}
-    </div>
  
- 
-</div> -->
-
 
 
 <!-- Your existing choropleth map HTML -->
@@ -225,6 +239,24 @@
    
         </main>
         </section>
+
+
+<!-- Add this script at the end of your analytics.html file -->
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        // Get the current URL parameter for time_unit
+        const urlParams = new URLSearchParams(window.location.search);
+        const timeUnit = urlParams.get('time_unit');
+
+        // Update the active state based on the time_unit
+        if (timeUnit === 'month') {
+            document.getElementById('page-body').classList.add('time-month-active');
+        } else if (timeUnit === 'year') {
+            document.getElementById('page-body').classList.add('time-year-active');
+        }
+    });
+</script>
+
 
         {%endblock content%}
 

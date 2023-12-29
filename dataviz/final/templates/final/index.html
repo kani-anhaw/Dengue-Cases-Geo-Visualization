@@ -1,9 +1,20 @@
 {%extends "base.html"%}
 {%load static%}
 {%block content%}
+<!-- Include the Tablesort library -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tablesort/5.2.1/tablesort.min.js"></script>
 
 <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous"> -->
 
+<style>
+#input:focus {
+    outline: none; /* Remove default focus outline */
+    border: none !important; /* Add !important to ensure it takes precedence */
+}
+
+
+
+</style>
 	<!-- SIDEBAR -->
 	<section id="sidebar">
 		<a href="#" class="brand">
@@ -14,7 +25,7 @@
 		</a>
 		<ul class="side-menu top">
 			<li class="active">
-				<a href="#">
+				<a href="{% url 'final:index' %}">
 					<i class='bx bxs-dashboard' ></i>
 					<span class="text">Dashboard</span>
 				</a>
@@ -106,7 +117,7 @@
 				<li>
 					<i class='bx bxs-donate-blood'></i>
 					<span class="text">
-						<h3>{{colon_ratio}}</h3>
+						<h3>{{cfr}}</h3>
 						<p>Death Ratio</p>
 					</span>
 				</li>
@@ -115,92 +126,78 @@
 
 			<div class="table-data">
 				<div class="order">
-
 					<div class="head">
 						<h3>Dataset</h3>
-			
-
-
-
-						  <i class='bx bx-search' ></i>
-						<i class='bx bx-filter' ></i>
+						<form method="get" action="{% url 'final:index' %}">
+							<input style="border-radius: 50px;
+								height: 30px;
+								background-color: rgb(230, 230, 230);
+								width: 300px;
+								padding: 20px;
+								font-family: inherit;
+								border: none" type="text" id="input" name="search" placeholder="Search..." value="{{ search_query }}" />
+							<button type="submit" style="border: none; background: none;"><i class='bx bx-search'></i></button>
+							
+						</form>
 					</div>
-
-
-
-
-
+				
 					<table id="sortable-table" class="table table-striped" style="font-size: 13px;">
 						<thead>
 							<tr>
-								<th scope="col">City <i class='bx bx-filter' onclick="sortTable(0)"></i></th>
-								<th scope="col">Cases <i class='bx bx-filter' onclick="sortTable(1)"></i></th>
-								<th scope="col">Deaths <i class='bx bx-filter' onclick="sortTable(2)"></i></th>
-								<th scope="col">Region <i class='bx bx-filter' onclick="sortTable(3)"></i></th>
+								<th scope="col" class="sortable-header" data-sort-method='alpha' data-sort-default aria-sort="none">City <i class='bx bx-filter'></i></th>
+								<th scope="col"class="sortable-header" data-sort-method='alpha' data-sort-default aria-sort="none">Cases <i class='bx bx-filter'></i></th>
+								<th scope="col"class="sortable-header" data-sort-method='alpha' data-sort-default aria-sort="none">Deaths <i class='bx bx-filter'></i></th>
+								<th scope="col"class="sortable-header" data-sort-method='alpha' data-sort-default aria-sort="none">Region <i class='bx bx-filter'></i></th>
 							</tr>
 						</thead>
 						<tbody>
-							{% for city_data in items %}
+							{% if items %}
+								{% for city_data in items %}
+									<tr>
+										<td>{{ city_data.city }}</td>
+										<td>{{ city_data.total_cases }}</td>
+										<td>{{ city_data.total_deaths }}</td>
+										<td>{{ city_data.region }}</td>
+									</tr>
+								{% endfor %}
+							{% else %}
 								<tr>
-									<td>{{ city_data.city }}</td>
-									<td>{{ city_data.total_cases }}</td>
-									<td>{{ city_data.total_deaths }}</td>
-									<td>{{ city_data.region }}</td>
+									<td colspan="4">No results found.</td>
 								</tr>
-							{% endfor %}
+							{% endif %}
 						</tbody>
 					</table>
-
-					<!-- <table class="table table-striped"  style="font-size: 13px;">
-						
-						<thead>
-							<tr>
-							  
-							  <th scope="col">City</th>
-							  <th scope="col">Cases</th>
-							  <th scope="col">Deaths</th>  
-							  <th scope="col">Region</th>
-							</tr>
-						  </thead>
-						  <tbody>
-			  
-							  {% for city_data in items %}
-			  
-							<tr>
-							 
-							  
-							  <td>{{ city_data.city }}</td>
-							  <td>{{ city_data.total_cases }}</td>
-							  <td>{{ city_data.total_deaths }}</td>
-							  <td>{{ city_data.region }}</td>
-							</tr>
-			  
-							{% endfor %}
-
-
-							
-						  </tbody>
-					</table> -->
-			
-					<div class="pagination" >
-						<!-- Pagination content here -->
+				
+					<!-- Add pagination links for the table -->
+					<div class="pagination">
 						<span class="step-links">
 							{% if items.has_previous %}
-								<a href="?page=1">&laquo; first</a>
-								<a href="?page={{ items.previous_page_number }}">previous</a>
+								<a href="?page=1{% if search_query %}&search={{ search_query }}{% endif %}">&laquo; first</a>
+								<a href="?page={{ items.previous_page_number }}{% if search_query %}&search={{ search_query }}{% endif %}">previous</a>
 							{% endif %}
-			
+				
 							<span class="current">
 								Page {{ items.number }} of {{ items.paginator.num_pages }}.
 							</span>
-			
+				
 							{% if items.has_next %}
-								<a href="?page={{ items.next_page_number }}">next</a>
-								<a href="?page={{ items.paginator.num_pages }}">last &raquo;</a>
+								<a href="?page={{ items.next_page_number }}{% if search_query %}&search={{ search_query }}{% endif %}">next</a>
+								<a href="?page={{ items.paginator.num_pages }}{% if search_query %}&search={{ search_query }}{% endif %}">last &raquo;</a>
 							{% endif %}
 						</span>
 					</div>
 				</div>
+
+
+
+
+
+
+
+
+
+
+
 			
 				<div class="todo" style="margin-left: 2%; width: 40%;">
 					<div class="head">
@@ -224,35 +221,22 @@
 	</section>
 	<!-- CONTENT -->
 
-
-	<script>
-		function sortTable(columnIndex) {
-			var table, rows, switching, i, x, y, shouldSwitch;
-			table = document.getElementById("sortable-table");
-			switching = true;
-	
-			while (switching) {
-				switching = false;
-				rows = table.rows;
-	
-				for (i = 1; i < rows.length - 1; i++) {
-					shouldSwitch = false;
-					x = rows[i].getElementsByTagName("td")[columnIndex];
-					y = rows[i + 1].getElementsByTagName("td")[columnIndex];
-	
-					if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
-						shouldSwitch = true;
-						break;
-					}
-				}
-	
-				if (shouldSwitch) {
-					rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
-					switching = true;
-				}
-			}
-		}
-	</script>
+<!-- Add this script at the end of the body tag -->
+<script>
+	document.addEventListener('DOMContentLoaded', function () {
+	  // Initialize the sortable table
+	  var sortableTable = new Tablesort(document.getElementById('sortable-table'));
+  
+	  // Add a listener to the filter icon for the 'City' column
+	  document.querySelector('#sortable-table thead th:nth-child(1)').addEventListener('click', function () {
+		// Toggle the sorting order when the filter icon is clicked
+		sortableTable.sort(0, {
+		  descending: !sortableTable.ths[0].getAttribute('aria-sort') || sortableTable.ths[0].getAttribute('aria-sort') === 'ascending'
+		});
+	  });
+	});
+  </script>
+  
  
 
 	{%endblock content%}
